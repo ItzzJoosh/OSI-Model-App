@@ -3,6 +3,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { Box, Typography, Paper } from "@mui/material";
 
+// This const is used to declare the description and remediation instructions for each attack type
 const attackDetails = {
   // Application Layer Attacks
   SQL_Injection: { 
@@ -239,10 +240,12 @@ const attackDetails = {
   },
 };
 
+// used to render the page
 const AttackDetail = () => {
-  const { attackName } = useParams();
-  const attack = attackDetails[attackName] || {};
+  const { attackName } = useParams(); // takes the attack name as a param
+  const attack = attackDetails[attackName] || {}; // fetches the attack from the long list above
 
+  // return a box with the name of the attack at the top, followed by the description, a couple line breaks, and then the remediation
   return (
     <Box padding="20px">
       <Paper elevation={3} padding="20px">

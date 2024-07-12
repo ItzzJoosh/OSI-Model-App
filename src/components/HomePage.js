@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, List, ListItem, Typography, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 
+// used to declare the OSI layers and the attacks that target each layer
 const osiLayers = [
   { name: "Application", attacks: ["SQL Injection", "Cross Site Scripting", "Cross Site Request Forgery", "BGP Hijacking", "Broken Access Control", "HTTP Flood", "Directory Traversal", "Large Payload Post", "Slowloris"] },
   { name: "Presentation", attacks: ["SSL Stripping", "Heartbleed", "POODLE", "BEAST", "CRIME", "BREACH", "Cipher Downgrade", "Character Encoding Attack", "Certificate Forgery"] },
@@ -12,9 +13,11 @@ const osiLayers = [
   { name: "Physical", attacks: ["Cable Tapping", "RF Interference", "Jamming", "Wiretapping", "Electromagnetic Interference", "Hardware Tampering", "Keyloggers"] },
 ];
 
+// used to render the homepage and handle clicks and hovers
 const HomePage = () => {
   const [hoveredLayer, setHoveredLayer] = useState(null);
 
+  // if a user has hovered over a layer and then clicks anywhere but the layer or expanded menu, it'll close the expanded menu
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.layer-item') && !event.target.closest('.expanded-menu')) {
@@ -29,16 +32,20 @@ const HomePage = () => {
     };
   }, []);
 
+  // if a user hovers over a layer, it'll make that layer's expanded menu appear
   const handleMouseEnter = (layer) => {
     setHoveredLayer(layer);
   };
 
+  // if they hover over a layer, then the expanded menu, then leave the menu, the menu will disappear
   const handleExpandedMenuLeave = (e) => {
     if (!e.relatedTarget || !e.relatedTarget.closest(".layer-item")) {
       setHoveredLayer(null);
     }
   };
 
+  // return the rendered homepage. 
+  // Creates a box encasing multiple box elements encasing papers for the layers and list items for the attacks.
   return (
     <Box 
       display="flex"
@@ -70,8 +77,8 @@ const HomePage = () => {
         <Box
           className="expanded-menu"
           position="absolute"
-          left="calc(50% + 200px)" // Adjust this value as needed to position it correctly
-          top="calc(50% - 225px)" // Adjust this value as needed to position it correctly
+          left="calc(50% + 200px)"
+          top="calc(50% - 225px)"
           width="300px"
           bgcolor="#f5f5f5"
           border="1px solid #ddd"
