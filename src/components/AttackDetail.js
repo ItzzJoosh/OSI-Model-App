@@ -1,7 +1,7 @@
-// src/components/VulnerabilityDetail.js
-import React from "react";
-import { useParams } from "react-router-dom";
-import { Box, Typography, Paper } from "@mui/material";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Box, Typography, Paper, Container } from "@mui/material";
+import CustomToolbar from "./CustomToolbar";
 
 // This const is used to declare the description and remediation instructions for each attack type
 const attackDetails = {
@@ -240,23 +240,54 @@ const attackDetails = {
   },
 };
 
-// used to render the page
 const AttackDetail = () => {
-  const { attackName } = useParams(); // takes the attack name as a param
-  const attack = attackDetails[attackName] || {}; // fetches the attack from the long list above
+  const { attackName } = useParams();
+  const navigate = useNavigate();
+  const attack = attackDetails[attackName] || {};
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredAttacks, setFilteredAttacks] = useState([]);
 
-  // return a box with the name of the attack at the top, followed by the description, a couple line breaks, and then the remediation
+  const handleSearchChange = (event) => {
+    const { value } = event.target;
+    setSearchTerm(value);
+    if (value) {
+      const allAttacks = Object.keys(attackDetails);
+      setFilteredAttacks(allAttacks.filter(attack => 
+        attack.toLowerCase().includes(value.toLowerCase())
+      ));
+    } else {
+      setFilteredAttacks([]);
+    }
+  };
+
+  const handleSearchSubmit = () => {
+    if (filteredAttacks.length === 1) {
+      navigate(`/attack/${filteredAttacks[0].replaceAll(" ", "_").replaceAll("-", "_")}`);
+    }
+  };
+
+  const handleSuggestionClick = (attack) => {
+    navigate(`/attack/${attack.replaceAll(" ", "_").replaceAll("-", "_")}`);
+  };
+
   return (
-    <Box padding="20px">
-      <Paper elevation={3} padding="20px">
-        <Typography variant="h4">
-          {(attackName.charAt(0).toUpperCase() + attackName.slice(1)).replaceAll("_", " ")}
-        </Typography>
-        <Typography variant="body1"><strong>Description:</strong> {attack.description}</Typography>
-        <Typography variant="body1"><br></br></Typography>
-        <Typography variant="body1"><br></br></Typography>
-        <Typography variant="body1"><strong>Remediation:</strong> {attack.remediation}</Typography>
-      </Paper>
+    <Box height="100vh" display="flex" flexDirection="column">
+      <CustomToolbar 
+        searchTerm={searchTerm} 
+        handleSearchChange={handleSearchChange} 
+        handleSearchSubmit={handleSearchSubmit} 
+        filteredAttacks={filteredAttacks} 
+        handleSuggestionClick={handleSuggestionClick}
+      />
+      <Container maxWidth="md" sx={{ padding: '20px', flexGrow: 1, marginTop: '80px' }}>
+        <Paper elevation={3} sx={{ padding: '20px' }}>
+          <Typography variant="h4" sx={{ fontSize: '2.5vw' }}>
+            {(attackName.charAt(0).toUpperCase() + attackName.slice(1)).replaceAll("_", " ")}
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: '1.2vw' }}><strong>Description:</strong> {attack.description}</Typography>
+          <Typography variant="body1" sx={{ margin: '16px 0', fontSize: '1.2vw' }}><strong>Remediation:</strong> {attack.remediation}</Typography>
+        </Paper>
+      </Container>
     </Box>
   );
 };
