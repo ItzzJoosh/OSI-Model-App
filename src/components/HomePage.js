@@ -89,7 +89,7 @@ const HomePage = () => {
                 alignItems: 'center',
                 position: 'relative',
               }}
-              onClick={() => navigate(`/layer/${layer.name}`)}
+              onClick={() => navigate(`/layer/${layer.name.replaceAll(" ", "_")}`)}
             >
               <Typography variant="h5" align="center" sx={{ fontSize: '2vw' }}>{layer.name} Layer</Typography>
               <IconButton
@@ -104,7 +104,7 @@ const HomePage = () => {
             </Paper>
             <Collapse in={expandedLayers[layer.name]} timeout="auto" unmountOnExit>
               <Paper elevation={3} sx={{ padding: '10px', marginTop: '10px' }}>
-                <Typography variant="h6">{layer.name} Layer Attacks</Typography>
+                <Typography variant="h6">{layer.name.replaceAll("_", " ")} Layer Attacks</Typography>
                 <List>
                   {layer.attacks.map(attack => (
                     <ListItem key={attack}>

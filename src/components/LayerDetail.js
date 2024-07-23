@@ -78,7 +78,7 @@ const layerDetails = {
       { name: "ICMP Tunneling", shortDescription: "Encapsulates other types of traffic within ICMP packets." }
     ]
   },
-  DataLink: {
+  Data_Link: {
     description: "The Data Link layer is responsible for node-to-node data transfer and error detection and correction.",
     exploitation: "This layer can be exploited through manipulation of MAC addresses and VLAN configurations, allowing for attacks like spoofing and flooding.",
     attacks: [
@@ -156,7 +156,7 @@ const LayerDetail = () => {
       <Container maxWidth="md" sx={{ padding: '20px', flexGrow: 1, marginTop: '80px' }}>
         <Paper elevation={3} sx={{ padding: '20px' }}>
           <Typography variant="h4" sx={{ fontSize: '2.5vw' }}>
-            {layerName} Layer
+            {layerName.replaceAll("_", " ")} Layer
           </Typography>
           <Typography variant="body1" paragraph sx={{ fontSize: '1.2vw' }}>
             {layer.description}
