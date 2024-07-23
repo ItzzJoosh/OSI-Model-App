@@ -27,7 +27,7 @@ const CustomToolbar = ({ searchTerm, handleSearchChange, handleSearchSubmit, fil
 
   const handleLayerClick = (layerName) => {
     setAnchorEl(null);
-    navigate(`/layer/${layerName}`);
+    navigate(`/layer/${layerName.replaceAll(" ", "_")}`);
   };
 
   return (
