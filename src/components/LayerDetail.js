@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CustomToolbar from "./CustomToolbar";
 
+// Detailed information about each OSI layer, including description, exploitation, and attack types
 const layerDetails = {
   Application: {
     description: "The Application layer is responsible for network services and APIs that allow applications to communicate with each other.",
@@ -106,14 +107,16 @@ const layerDetails = {
   }
 };
 
+// LayerDetail component for displaying details about a specific OSI layer
 const LayerDetail = () => {
-  const { layerName } = useParams();
+  const { layerName } = useParams(); // Extracting the layer name from the URL parameters
   const navigate = useNavigate();
-  const layer = layerDetails[layerName] || {};
+  const layer = layerDetails[layerName] || {}; // Retrieving the details of the specific layer or setting to an empty object if not found
   const [expandedAttacks, setExpandedAttacks] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredAttacks, setFilteredAttacks] = useState([]);
 
+  // Function to handle expanding/collapsing attack details
   const handleExpandClick = (attack) => {
     setExpandedAttacks((prevExpandedAttacks) => ({
       ...prevExpandedAttacks,
@@ -121,6 +124,7 @@ const LayerDetail = () => {
     }));
   };
 
+  // Function to handle changes in the search input field
   const handleSearchChange = (event) => {
     const { value } = event.target;
     setSearchTerm(value);
@@ -134,16 +138,19 @@ const LayerDetail = () => {
     }
   };
 
+  // Function to handle search form submission
   const handleSearchSubmit = () => {
     if (filteredAttacks.length === 1) {
       navigate(`/attack/${filteredAttacks[0].replaceAll(" ", "_").replaceAll("-", "_")}`);
     }
   };
 
+  // Function to handle clicking on a search suggestion
   const handleSuggestionClick = (attack) => {
     navigate(`/attack/${attack.replaceAll(" ", "_").replaceAll("-", "_")}`);
   };
 
+  // Rendering the layer details page with description, exploitation, and attack details
   return (
     <Box height="100vh" display="flex" flexDirection="column">
       <CustomToolbar 

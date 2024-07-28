@@ -247,6 +247,7 @@ const AttackDetail = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredAttacks, setFilteredAttacks] = useState([]);
 
+  // used to handle when the search is changed (more stuff is typed/deleted)
   const handleSearchChange = (event) => {
     const { value } = event.target;
     setSearchTerm(value);
@@ -260,16 +261,22 @@ const AttackDetail = () => {
     }
   };
 
+  // used to handle searches
   const handleSearchSubmit = () => {
     if (filteredAttacks.length === 1) {
       navigate(`/attack/${filteredAttacks[0].replaceAll(" ", "_").replaceAll("-", "_")}`);
     }
   };
 
+  // used to handle when a search suggestion is clicked
   const handleSuggestionClick = (attack) => {
     navigate(`/attack/${attack.replaceAll(" ", "_").replaceAll("-", "_")}`);
   };
 
+  /* 
+  webpage design declaration
+  has the custom toolbar as well as the description and remeditation tips
+  */
   return (
     <Box height="100vh" display="flex" flexDirection="column">
       <CustomToolbar 

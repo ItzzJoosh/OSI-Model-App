@@ -5,6 +5,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CustomToolbar from "./CustomToolbar";
 
+// Array of OSI layers and their associated attacks
 const osiLayers = [
   { name: "Application", attacks: ["SQL Injection", "Cross Site Scripting", "Cross Site Request Forgery", "BGP Hijacking", "Broken Access Control", "HTTP Flood", "Directory Traversal", "Large Payload Post", "Slowloris"] },
   { name: "Presentation", attacks: ["SSL Stripping", "Heartbleed", "POODLE", "BEAST", "CRIME", "BREACH", "Cipher Downgrade", "Character Encoding Attack", "Certificate Forgery"] },
@@ -15,12 +16,14 @@ const osiLayers = [
   { name: "Physical", attacks: ["Cable Tapping", "RF Interference", "Jamming", "Wiretapping", "Electromagnetic Interference", "Hardware Tampering", "Keyloggers"] },
 ];
 
+// HomePage component
 const HomePage = () => {
   const [expandedLayers, setExpandedLayers] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredAttacks, setFilteredAttacks] = useState([]);
   const navigate = useNavigate();
 
+  // Function to handle expanding/collapsing layers
   const handleExpandClick = (layerName) => {
     setExpandedLayers((prevExpandedLayers) => ({
       ...prevExpandedLayers,
@@ -28,6 +31,7 @@ const HomePage = () => {
     }));
   };
 
+  // Effect to handle clicks outside of expanded menu to collapse it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.layer-item') && !event.target.closest('.expanded-menu')) {
@@ -42,6 +46,7 @@ const HomePage = () => {
     };
   }, []);
 
+  // Function to handle changes in the search input field
   const handleSearchChange = (event) => {
     const { value } = event.target;
     setSearchTerm(value);
@@ -55,16 +60,19 @@ const HomePage = () => {
     }
   };
 
+  // Function to handle search form submission
   const handleSearchSubmit = () => {
     if (filteredAttacks.length === 1) {
       navigate(`/attack/${filteredAttacks[0].replaceAll(" ", "_").replaceAll("-", "_")}`);
     }
   };
 
+  // Function to handle clicking on a search suggestion
   const handleSuggestionClick = (attack) => {
     navigate(`/attack/${attack.replaceAll(" ", "_").replaceAll("-", "_")}`);
   };
 
+  // Rendering the homepage with OSI layers and attacks
   return (
     <Box height="100vh" display="flex" flexDirection="column">
       <CustomToolbar 
